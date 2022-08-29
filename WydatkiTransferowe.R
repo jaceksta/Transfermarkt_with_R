@@ -63,5 +63,6 @@ ggplot(data = this_window, aes(x=squad, y = expenditure_euros/1000000, fill = le
   theme(axis.text.x=element_blank())+
   ylab("Wydatki w mln euro")+
   labs(title="Wydatki transferowe każdego klubu z TOP5 lig Europy w sezonie 22/23",
-       subtitle="Źródło: transfermarkt.com")+
+       subtitle="Źródło: transfermarkt.com",
+       caption="Autor: Jacek Staszak")+
   xlab("")
