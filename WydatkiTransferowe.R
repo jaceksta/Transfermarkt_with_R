@@ -18,14 +18,25 @@ for (i in 2000:2022){
   
 }
 
+install.packages("priceR") 
+library(priceR)
+
+country <- "EU"
+inflation_dataframe <- retrieve_inflation_data(country)
+countries_dataframe <- show_countries()
+
+
+transfers$infl_adj_fees <- adjust_for_inflation(transfers$expenditure_euros, transfers$season, country, to_date = 2021,
+                                                inflation_dataframe = inflation_dataframe,
+                                                countries_dataframe = countries_dataframe)
 
 summary <- transfers%>%
   group_by(league, season)%>%
-  summarise(fees = sum(expenditure_euros))
+  summarise(fees = sum(infl_adj_fees))
 
 summary$fees <- summary$fees / 1000000
 
-ggplot(summary, aes(x=season, y = infl_adj_fees, group=league, color = league))+
+ggplot(summary, aes(x=season, y = fees, group=league, color = league))+
   geom_line()+
   theme_minimal()+
   xlab("Sezon")+
@@ -37,17 +48,7 @@ ggplot(summary, aes(x=season, y = infl_adj_fees, group=league, color = league))+
   )
 
 
-install.packages("priceR") 
-library(priceR)
 
-country <- "EU"
-inflation_dataframe <- retrieve_inflation_data(country)
-countries_dataframe <- show_countries()
-
-
-transfers$infl_adj_fees <- adjust_for_inflation(transfers$expenditure_euros, transfers$season, country, to_date = 2021,
-                     inflation_dataframe = inflation_dataframe,
-                     countries_dataframe = countries_dataframe)
 
 
 this_window <- transfers%>%
