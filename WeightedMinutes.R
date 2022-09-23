@@ -12,7 +12,7 @@ transfers <- tm_team_transfers(team_urls)
 ekstraklasa_players <- tm_squad_stats(team_url = team_urls)
 
 
-ekstraklasa_valuations <- get_player_market_values(country_name = "Poland",
+ekstraklasa_valuations <- tm_player_market_values(country_name = "Poland",
                                                 start_year = 2022)
 
 
@@ -28,8 +28,8 @@ ekstraklasa_join <- ekstraklasa_join[!(is.na(ekstraklasa_join$date_joined)),]
 
 days_in_club <- c()
 
-for (i in 1:550){
-  a <- length(seq(from=as.Date(ekstraklasa_join$date_joined[i]), to = as.Date("2022-08-26"), by = 'day')) - 1
+for (i in 1:549){
+  a <- length(seq(from=as.Date(ekstraklasa_join$date_joined[i]), to = as.Date("2022-09-23"), by = 'day')) - 1
   days_in_club <- c(days_in_club, a)
 }
 
@@ -41,14 +41,21 @@ player_age <- c()
 ekstraklasa$player_age = as.numeric(difftime(Sys.Date(),ekstraklasa$player_dob, units = "weeks"))/52.25
 
 
-team_abb <- ekstraklasa$team_name
-
-ekstraklasa <- cbind(ekstraklasa, team_abb)
 
 
+
+
+ekstraklasa$team_abb <- toupper(substr(ekstraklasa$team_name, 1,3))
+
+
+ekstraklasa$team_abb[ekstraklasa$team_name=="Górnik Zabrze"] <- "GOR"
 ekstraklasa$team_abb[ekstraklasa$team_name=="Lechia Gdansk"] <- "LGD"
+ekstraklasa$team_abb[ekstraklasa$team_name=="Lech Poznan"] <- "LPO"
+ekstraklasa$team_abb[ekstraklasa$team_name=="Miedz Legnica"] <- "MDZ"
+ekstraklasa$team_abb[ekstraklasa$team_name=="Rakow Czestochowa"] <- "RCZ"
+ekstraklasa$team_abb[ekstraklasa$team_name=="Wisla Plock"] <- "WPL"
 
-teams$team_abb[teams$team_abb=="LEC"] <- "LGD"
+
 
 
 cols <- c("CRA"=rgb(252,0,1,maxColorValue = 255), "GOR"=rgb(254,254,254, maxColorValue = 255),
