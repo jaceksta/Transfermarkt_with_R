@@ -6,9 +6,6 @@ library(tidyverse)
 
 team_urls <- tm_league_team_urls(country_name = "Poland", start_year = 2022)
 
-transfers <- tm_team_transfers(team_urls)
-
-
 ekstraklasa_players <- tm_squad_stats(team_url = team_urls)
 
 
